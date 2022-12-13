@@ -9,6 +9,9 @@ public class CProcess {
     private String processID;
     private ArrayList<Task> tasks;
     private String state;
+    private int memory;
+    private int CPU;
+    private int runtype;
     /***********************************
      * Creation of the default and
      * parameterized objects
@@ -17,6 +20,8 @@ public class CProcess {
         this.processID = null;
         this.tasks = new ArrayList<>();
         this.state = "new";
+        this.memory = 0;
+        this.CPU = 0;
     }
 
     public CProcess(String x){
@@ -29,7 +34,6 @@ public class CProcess {
 
     public void addTask(Task task){this.tasks.add(task);}
 
-    public void removeTask(Task task){this.tasks.remove(task);}
 
     public String getID(){
         return this.processID;
@@ -41,7 +45,17 @@ public class CProcess {
 
     public ArrayList<Task> getTasks(){return this.tasks;}
 
-    public int totProcesses = 0;
+    public int getMemory(){return this.memory;}
+
+    public void setMemory(int memory){this.memory = memory;}
+
+    public void setCPU(int newCPU){this.CPU = newCPU;}
+
+    public int getCPU(){return this.CPU;}
+
+    public void setRunType(int newtype){this.runtype = newtype;}
+
+    public int getRunType(){return this.runtype;}
 
     public void getAllTasks() {
         for (int x = 0; x < this.tasks.size(); x++) {
@@ -60,10 +74,20 @@ public class CProcess {
     public static CProcess createSingleProcess(){
         CProcess newProcess = new CProcess();
         int randID = (int) (Math.random() * 10000);
+        int memReq = (int) (Math.random() * 1000);
         newProcess.setState("NEW");
+        newProcess.setMemory(memReq);
         newProcess.setID("Process" + randID);
         Random rand = new Random();
-        int randTasks = (int) (Math.floor(Math.random() * 15) + 1);
+        int randTasks = (int) (Math.floor(Math.random() * 20) + 1);
+        int randCPU = (int) (Math.floor(Math.random() * 2));
+
+        if(randCPU == 1){
+            newProcess.setCPU(1);
+        }
+        else{
+            newProcess.setCPU(2);
+        }
 
         for (int x = 0; x < randTasks; x++) {
             Task newTask = new Task();
@@ -81,7 +105,7 @@ public class CProcess {
             }
 
             newTask.setTaskBuffer((int) (Math.floor(Math.random() * 80) + 1));
-            if (Math.random() * 10 > 7 || x == 0) {
+            if (Math.random() * 10 > 8) {
                 newTask.setCritical(true);
 
             }
